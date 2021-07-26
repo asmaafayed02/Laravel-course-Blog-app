@@ -15,14 +15,14 @@ use App\Http\Controllers\BlogController;
 Route::get('/', function () {
     return view('welcome');
 });
-Route::get('/posts', [BlogController::class, 'index'])->name('posts.index');
-Route::get('/posts/create', [BlogController::class, 'create']) -> name('posts.create');
-Route::post('/posts', [BlogController::class, 'store']) -> name('posts.store');
-Route::get('/posts/{post}', [BlogController::class, 'show']) -> name('posts.show');
-Route::delete('/posts/{post}', [BlogController::class, 'destroy']) -> name('posts.destroy');
+Route::get('/posts', [BlogController::class, 'index'])->name('posts.index')-> middleware('auth');
+Route::get('/posts/create', [BlogController::class, 'create']) -> name('posts.create')-> middleware('auth');
+Route::post('/posts', [BlogController::class, 'store']) -> name('posts.store')-> middleware('auth');
+Route::get('/posts/{post}', [BlogController::class, 'show']) -> name('posts.show')-> middleware('auth');
+Route::delete('/posts/{post}', [BlogController::class, 'destroy']) -> name('posts.destroy')-> middleware('auth');
 Route::get('/posts/showerorr/{post}', [BlogController::class, 'model']) -> name('posts.model');
-Route::get('/posts/updatePage/{post}', [BlogController::class, 'updatePage']) -> name('posts.updatePage');
-Route::put('/posts/{post}', [BlogController::class, 'update']) -> name('posts.update');
+Route::get('/posts/updatePage/{post}', [BlogController::class, 'updatePage']) -> name('posts.updatePage')-> middleware('auth');
+Route::put('/posts/{post}', [BlogController::class, 'update']) -> name('posts.update')-> middleware('auth');
    
  
 // Route::get('/blog', function () {
@@ -34,3 +34,7 @@ Route::put('/posts/{post}', [BlogController::class, 'update']) -> name('posts.up
 //         'posts'=> $posts 
 //     ]);
 // });
+
+Auth::routes();
+
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
